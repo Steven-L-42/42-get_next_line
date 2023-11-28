@@ -1,5 +1,7 @@
 # Get Next Line - README
 
+![get_next_line](https://github.com/byaliego/42-project-badges/blob/main/badges/get_next_linee.png?raw=true)
+
 ## Überblick
 
 Dieses Repository enthält die Implementierung der Funktion get_next_line, die das Lesen von Zeilen aus einem Dateideskriptor erleichtert. Die Aufgabe erfordert die korrekte Verarbeitung von Datei- und Standardinput und stellt Anforderungen an die Handhabung des Buffering-Prozesses.
