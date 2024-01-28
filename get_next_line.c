@@ -6,7 +6,7 @@
 /*   By: slippert <slippert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 20:26:05 by slippert          #+#    #+#             */
-/*   Updated: 2023/11/09 15:40:24 by slippert         ###   ########.fr       */
+/*   Updated: 2024/01/28 11:43:29 by slippert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,20 @@ char	*ft_next(char *res_buf)
 	while (res_buf[i] && res_buf[i] != '\n')
 		i++;
 	if (!res_buf[i])
-		return (free(res_buf), NULL);
+		return (free(res_buf), res_buf = NULL);
 	length = 0;
 	while (res_buf[length])
 		length++;
+	if (length - 1 < 1)
+		return (free(res_buf), res_buf = NULL);
 	rem_buf = ft_calloc(length - i + 1, sizeof(char));
 	if (!rem_buf)
-		return (NULL);
+		return (free(res_buf), res_buf = NULL);
 	i++;
 	j = 0;
 	while (res_buf[i])
 		rem_buf[j++] = res_buf[i++];
-	return (free(res_buf), rem_buf);
+	return (free(res_buf), res_buf = NULL, rem_buf);
 }
 
 char	*ft_line(char *res_buf)
@@ -76,7 +78,7 @@ char	*ft_read_file(int fd, char *res_buf)
 		return (NULL);
 	temp_buf = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!temp_buf)
-		return (free(res_buf), NULL);
+		return (free(res_buf), res_buf = NULL);
 	bytes = 1;
 	while (bytes)
 	{
@@ -85,16 +87,17 @@ char	*ft_read_file(int fd, char *res_buf)
 			return (free(temp_buf), NULL);
 		temp_buf[bytes] = '\0';
 		res_buf = ft_free(res_buf, temp_buf);
+		if (!res_buf)
+			return (res_buf = NULL);
 		if (ft_strchr(res_buf, '\n'))
 			break ;
 	}
-	free(temp_buf);
-	return (res_buf);
+	return (free(temp_buf), res_buf);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*res_buf;
+	static char	*res_buf = 0;
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
@@ -111,6 +114,9 @@ char	*get_next_line(int fd)
 		return (NULL);
 	line = ft_line(res_buf);
 	res_buf = ft_next(res_buf);
+	if (!line)
+		return (free(res_buf), res_buf = NULL, line = NULL);
+	if (res_buf && ((line && line[0] == '\0') || res_buf[0] == '\0'))
+		return (free(res_buf), res_buf = NULL, line);
 	return (line);
 }
-

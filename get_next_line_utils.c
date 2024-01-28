@@ -6,7 +6,7 @@
 /*   By: slippert <slippert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 20:35:49 by slippert          #+#    #+#             */
-/*   Updated: 2023/10/20 12:48:28 by slippert         ###   ########.fr       */
+/*   Updated: 2024/01/28 11:45:18 by slippert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,15 @@ void	*ft_calloc(size_t count, size_t size)
 {
 	void	*temp;
 
+	if (count * size < 1)
+		return (NULL);
 	temp = (void *)malloc(count * size);
 	if (!temp)
-		return (NULL);
+		return (temp = NULL);
 	return (ft_memset(temp, '\0', count * size));
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*s3;
 	char	*temp_s3;
@@ -47,6 +49,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	s2_length = 0;
 	while (s2[s2_length])
 		s2_length++;
+	if (s1_length + s2_length < 1)
+		return (NULL);
 	s3 = (char *)ft_calloc((s1_length + s2_length) + 1, sizeof(char));
 	if (!s3)
 		return (NULL);
@@ -60,15 +64,28 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 char	*ft_free(char *res_buf, char *temp_buf)
 {
-	temp_buf = ft_strjoin(res_buf, temp_buf);
-	free(res_buf);
-	return (temp_buf);
+	char	*temp;
+
+	temp = ft_strjoin(res_buf, temp_buf);
+	if (!temp)
+	{
+		free(temp_buf);
+		temp_buf = NULL;
+	}
+	if (res_buf)
+	{
+		free(res_buf);
+		res_buf = NULL;
+	}
+	return (temp);
 }
 
 char	*ft_strchr(const char *s, int c)
 {
 	unsigned char	a_c;
 
+	if (!s)
+		return (NULL);
 	a_c = (unsigned char) c;
 	while (*s)
 	{

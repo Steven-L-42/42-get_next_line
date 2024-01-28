@@ -1,6 +1,6 @@
 # Get Next Line - README
 
-![get_next_line](https://github.com/byaliego/42-project-badges/blob/main/badges/get_next_linee.png?raw=true)
+![get_next_line](https://github.com/ayogun/42-project-badges/blob/main/badges/get_next_linem.png?raw=true)
 
 ## Überblick
 
