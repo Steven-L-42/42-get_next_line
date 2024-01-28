@@ -1,4 +1,4 @@
-# Get Next Line - README
+# Get Next Line (Mandatory + Bonus)
 
 ![get_next_line](https://github.com/ayogun/42-project-badges/blob/main/badges/get_next_linem.png?raw=true)
 
